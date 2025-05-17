@@ -68,10 +68,13 @@ def get_lucidlink():
             lookup_path = file_path
 
         lucid_url = get_lucid_link(lookup_path)
-        links.append(lucid_url)
+
+        # Filter out error responses that don't contain "lucid://"
+        if lucid_url.startswith("lucid://"):
+            links.append(lucid_url)
 
     if links:
         QtGui.QGuiApplication.clipboard().setText('\n'.join(links))
         QtWidgets.QMessageBox.information(None, "Get LucidLink", "Link(s) copied to clipboard")
     else:
-        QtWidgets.QMessageBox.warning(None, "Get LucidLink", "No valid file paths found.")
+        QtWidgets.QMessageBox.warning(None, "Get LucidLink", "No valid LucidLink URLs found.")
