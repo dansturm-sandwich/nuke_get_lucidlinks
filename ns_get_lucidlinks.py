@@ -20,10 +20,12 @@ except ImportError:
 
 def get_lucid_link(lucidfullpath):
     print(f"\n[get_lucid_link] Input full path: {lucidfullpath}")
-    lucidfullpath = lucidfullpath.replace("file://", "")
-    lucidShortPath = lucidfullpath.replace("/Volumes/Macintosh HD/Volumes/sandwich-post/", "")
-    lucidShortPath = lucidShortPath.replace("/Volumes/sandwich-post/", "")
-    lucidShortPath = lucidShortPath.replace(" ", "%20")
+    match = re.search(r"active_projects/.+", lucidfullpath)
+    if match:
+        lucidShortPath = match.group(0)
+    else:
+        print(f"[nuke_get_lucidlink] ERROR: Could not extract lucidShortPath from: {lucidfullpath}")
+        return "[Error] Invalid path — does not contain /active_projects"
 
     print(f"[get_lucid_link] Short path: {lucidShortPath}")
 
